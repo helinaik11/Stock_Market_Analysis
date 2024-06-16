@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Analysis</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body{
+            background-image: url('/static/images/bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: aqua;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size:xx-large;
+            align-items: center;
+            text-align:center;
+            
+        }
+        h2{
+            font-weight: bold;
+            margin-bottom: 0;
+        }
+        p{
+            margin-top: 5px;
+            font-size: large;
+            font-style: italic;
+            font-weight: bold;
+           
+        }
+        label{
+            color: aliceblue;
+        }
+        option{
+            font-size: 18px;
+            padding: 8px;
+        }
+        select{
+            font-size: 18px;
+            font-style: italic;
+            color: grey;
+            padding: 8px;
+        }
+        input{
+            font-size: 18px;
+            font-style: italic;
+            color: grey;
+            padding: 8px;
+        }
+        button{
+            font-size: 18px;
+            font-style: italic;
+            /* color: bisque; */
+            background-color: aqua;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Bulls and Bears</h2>
+    <p>The Stock Analysis System</p>
+    <form id="stockForm">
+        <label for="company">Choose a company:</label>
+        <select id="company" name="company">
+            <option value="GOOG">GOOGLE</option>
+            <option value="AMZN">AMAZON</option>
+            <option value="TSLA">TESLA</option>
+            <option value="AAPL">APPLE</option>
+            <option value="MSFT">MICROSOFT</option>
+            <option value="NFLX">NETFLIX</option>
+        </select><br><br>
+        
+        <label for="days">Number of days to analyze:</label>
+        <input type="number" id="days" name="days" min="1"  required><br><br>
+
+
+        <button type="submit">Generate Plot</button>
+    </form>
+    <div id="plots"></div>
+
+    <script>
+        $(document).ready(function() {
+            $('#stockForm').on('submit', function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'POST',
+                    url: '/plot',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        $('#plots').html('');
+                        response.plots.forEach(function(plot) {
+                            $('#plots').append(plot);
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
