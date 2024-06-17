@@ -1,11 +1,7 @@
 from flask import Flask, request, render_template, jsonify
 import yfinance as yf
 from datetime import timedelta, date
-import matplotlib.pyplot as plt
-import seaborn as sns
 import plotly.graph_objects as go
-import io
-import base64
 
 app = Flask(__name__)
 
@@ -26,14 +22,11 @@ def plot():
     data = yf.download(company, start=begin_date, end=final_date, progress=False)
     data["Date"] = data.index
 
-    plots = []
-    
     fig = go.Figure(data=go.Candlestick(x=data["Date"], open=data["Open"], close=data["Close"], high=data["High"], low=data["Low"]))
     fig.update_layout(title="STOCK ANALYSIS")
     candlestick_html = fig.to_html(full_html=False)
-    plots.append(candlestick_html)
-    
 
-    return jsonify(plots=plots)
+    return jsonify(plots=[candlestick_html])
 
-
+if __name__ == '__main__':
+    app.run(debug=True)

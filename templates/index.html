@@ -8,7 +8,7 @@
     <style>
         body{
             background-image: url('/static/images/bg.jpg');
-            background-size: cover;
+            background-size:contain;
             background-position: center;
             background-repeat: no-repeat;
             color: aqua;
@@ -55,6 +55,11 @@
             background-color: aqua;
             padding: 8px;
         }
+        @media only screen and (max-width: 768px) {
+        body {
+            background-size: contain; /* Ensure background image fits within the screen */
+        }
+}
     </style>
 </head>
 <body>
